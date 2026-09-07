@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Monthly Attendance | SmartAttendance</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0b0b0f;
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            height: 70px;
+            background: #111116;
+            border-bottom: 1px solid #292934;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #ff3b30;
+        }
+
+        .back {
+            text-decoration: none;
+            color: white;
+            background: #292934;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 35px 20px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #888;
+        }
+
+        .controls {
+            background: #15151c;
+            border: 1px solid #292934;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .month-form {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .month-form label {
+            color: #aaa;
+        }
+
+        input[type="month"] {
+            background: #0b0b0f;
+            color: white;
+            border: 1px solid #393944;
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        .btn {
+            border: none;
+            text-decoration: none;
+            color: white;
+            background: #ff3b30;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .pdf-btn {
+            background: #292934;
+        }
+
+        .table-box {
+            background: #15151c;
+            border: 1px solid #292934;
+            border-radius: 16px;
+            padding: 25px;
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .table-header h2 {
+            font-size: 22px;
+        }
+
+        .month-text {
+            color: #888;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #292934;
+        }
+
+        th {
+            color: #999;
+            font-size: 14px;
+        }
+
+        td {
+            color: #ddd;
+        }
+
+        .percentage {
+            font-weight: bold;
+        }
+
+        .good {
+            color: #6ee78a;
+        }
+
+        .medium {
+            color: #ffd166;
+        }
+
+        .low {
+            color: #ff7777;
+        }
+
+        .empty {
+            text-align: center;
+            color: #888;
+            padding: 30px;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                padding: 0 15px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .month-form {
+                flex-wrap: wrap;
+            }
+
+            .table-header {
+                align-items: flex-start;
+                gap: 10px;
+                flex-direction: column;
+            }
+
+            .heading h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Smart<span>Attendance</span></div>
+
+    <a href="/dashboard" class="back">
+        ← Dashboard
+    </a>
+</header>
+
+<main>
+
+    <div class="heading">
+        <h1>Monthly Attendance</h1>
+        <p>View attendance records for all students by month.</p>
+    </div>
+
+    <div class="controls">
+
+        <form class="month-form" method="GET" action="/monthly-record">
+
+            <label for="month">Select Month:</label>
+
+            <input
+                type="month"
+                id="month"
+                name="month"
+                value="{{ month }}"
+                required
+            >
+
+            <button type="submit" class="btn">
+                View
+            </button>
+
+        </form>
+
+        <a
+            href="/export-pdf?month={{ month }}"
+            class="btn pdf-btn"
+        >
+            Export PDF
+        </a>
+
+    </div>
+
+    <div class="table-box">
+
+        <div class="table-header">
+            <h2>Attendance Summary</h2>
+            <div class="month-text">{{ month }}</div>
+        </div>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Roll No.</th>
+                    <th>Name</th>
+                    <th>Father's Name</th>
+                    <th>Class</th>
+                    <th>Present</th>
+                    <th>Absent</th>
+                    <th>Total</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for record in records %}
+
+                <tr>
+
+                    <td>{{ record.roll_number }}</td>
+
+                    <td>{{ record.name }}</td>
+
+                    <td>{{ record.father_name }}</td>
+
+                    <td>{{ record.class_name }}</td>
+
+                    <td>{{ record.present }}</td>
+
+                    <td>{{ record.absent }}</td>
+
+                    <td>{{ record.total }}</td>
+
+                    <td class="percentage
+                        {% if record.percentage >= 75 %}
+                            good
+                        {% elif record.percentage >= 50 %}
+                            medium
+                        {% else %}
+                            low
+                        {% endif %}
+                    ">
+                        {{ record.percentage }}%
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="8" class="empty">
+                        No students registered yet.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance QR | SmartAttendance</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, Arial, sans-serif;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.18), transparent 30%),
+                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.15), transparent 30%),
+                #070914;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 620px;
+            text-align: center;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #c7d2fe;
+        }
+
+        .brand-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.45);
+        }
+
+        .title {
+            font-size: clamp(28px, 5vw, 42px);
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            margin: 10px auto 30px;
+            color: #9ca3af;
+            font-size: 15px;
+            max-width: 430px;
+            line-height: 1.6;
+        }
+
+        .qr-card {
+            position: relative;
+            background: rgba(17, 24, 39, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+
+        .qr-card::before {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: rgba(99, 102, 241, 0.15);
+            filter: blur(70px);
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .status {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 50px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: #86efac;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 22px;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #22c55e;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.75);
+            }
+        }
+
+        .qr-wrapper {
+            position: relative;
+            width: fit-content;
+            margin: 0 auto 25px;
+            padding: 14px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.7),
+                0 15px 50px rgba(0,0,0,0.35);
+        }
+
+        #qrcode {
+            width: 260px;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #qrcode img,
+        #qrcode canvas {
+            border-radius: 8px;
+        }
+
+        .scan-text {
+            font-size: 14px;
+            color: #d1d5db;
+            margin: 0 0 25px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .info-box {
+            text-align: left;
+            padding: 15px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .info-label {
+            display: block;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            display: block;
+            font-size: 14px;
+            color: #e5e7eb;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .btn {
+            flex: 1;
+            border: none;
+            text-decoration: none;
+            padding: 14px 18px;
+            border-radius: 13px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            color: #d1d5db;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.09);
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: #4b5563;
+            font-size: 11px;
+        }
+
+        @media (max-width: 500px) {
+
+            .qr-card {
+                padding: 22px 16px;
+                border-radius: 22px;
+            }
+
+            #qrcode {
+                width: 220px;
+                height: 220px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="brand">
+        <div class="brand-icon">✓</div>
+        SMARTATTENDANCE
+    </div>
+
+    <h1 class="title">Attendance QR</h1>
+
+    <p class="subtitle">
+        Display this QR code for students to scan and mark their attendance.
+    </p>
+
+    <div class="qr-card">
+
+        <div class="status">
+            <span class="dot"></span>
+            Attendance Session Active
+        </div>
+
+        <div class="qr-wrapper">
+            <div id="qrcode"></div>
+        </div>
+
+        <p class="scan-text">
+            📱 Scan this QR code with a student's phone
+        </p>
+
+        <div class="info-grid">
+
+            <div class="info-box">
+                <span class="info-label">Date</span>
+                <span class="info-value">{{ date }}</span>
+            </div>
+
+            <div class="info-box">
+                <span class="info-label">Session</span>
+                <span class="info-value" id="sessionToken">
+                    {{ token }}
+                </span>
+            </div>
+
+        </div>
+
+        <div class="buttons">
+
+            <a href="/dashboard" class="btn btn-secondary">
+                ← Dashboard
+            </a>
+
+            <button class="btn btn-primary" onclick="copySession()">
+                Copy Session
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        SmartAttendance • Secure Attendance System
+    </div>
+
+</div>
+
+<script>
+
+    new QRCode(document.getElementById("qrcode"), {
+        text: "{{ qr_url }}",
+        width: 260,
+        height: 260,
+        correctLevel: QRCode.CorrectLevel.H
+    });
+
+    function copySession() {
+
+        const token = document.getElementById("sessionToken").innerText;
+
+        navigator.clipboard.writeText(token).then(() => {
+
+            const button = document.querySelector(".btn-primary");
+
+            button.innerText = "✓ Copied";
+
+            setTimeout(() => {
+                button.innerText = "Copy Session";
+            }, 1500);
+
+        });
+
+    }
+
+</script>
+
+</body>
+</html>
