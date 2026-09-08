@@ -48,7 +48,7 @@
         }
 
         main {
-            max-width: 1250px;
+            max-width: 1500px;
             margin: auto;
             padding: 35px 20px;
         }
@@ -84,11 +84,13 @@
             gap: 12px;
         }
 
-        .month-form label {
+        .month-form label,
+        .date-form label {
             color: #aaa;
         }
 
-        input[type="month"] {
+        input[type="month"],
+        input[type="date"] {
             background: #0b0b0f;
             color: white;
             border: 1px solid #393944;
@@ -109,6 +111,60 @@
 
         .pdf-btn {
             background: #292934;
+        }
+
+        .date-box {
+            background: #15151c;
+            border: 1px solid #292934;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .date-box h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .date-form {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .date-stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .stat {
+            background: #0f0f14;
+            border: 1px solid #292934;
+            border-radius: 12px;
+            padding: 15px 20px;
+            min-width: 150px;
+        }
+
+        .stat-title {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .present-text {
+            color: #6ee78a;
+        }
+
+        .absent-text {
+            color: #ff7777;
         }
 
         .table-box {
@@ -137,23 +193,64 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 850px;
+            min-width: 1200px;
         }
 
         th,
         td {
-            padding: 15px;
-            text-align: left;
+            padding: 10px 8px;
+            text-align: center;
             border-bottom: 1px solid #292934;
+            white-space: nowrap;
         }
 
         th {
             color: #999;
-            font-size: 14px;
+            font-size: 13px;
+            background: #111116;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        td.student-name,
+        th.student-name {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background: #15151c;
+            z-index: 1;
+        }
+
+        th.student-name {
+            background: #111116;
+            z-index: 3;
         }
 
         td {
             color: #ddd;
+            font-size: 13px;
+        }
+
+        .day-cell {
+            min-width: 85px;
+            font-weight: bold;
+            border-radius: 6px;
+        }
+
+        .present-cell {
+            background: rgba(46, 204, 113, 0.16);
+            color: #6ee78a;
+        }
+
+        .absent-cell {
+            background: rgba(255, 80, 80, 0.14);
+            color: #ff7777;
+        }
+
+        .not-marked {
+            background: rgba(255, 255, 255, 0.04);
+            color: #777;
         }
 
         .percentage {
@@ -176,6 +273,39 @@
             text-align: center;
             color: #888;
             padding: 30px;
+        }
+
+        .date-details {
+            margin-top: 20px;
+        }
+
+        .date-details h3 {
+            margin-bottom: 12px;
+        }
+
+        .date-list {
+            max-height: 350px;
+            overflow-y: auto;
+            border: 1px solid #292934;
+            border-radius: 10px;
+        }
+
+        .date-row {
+            display: grid;
+            grid-template-columns: 100px 1fr 130px 130px;
+            padding: 12px 15px;
+            border-bottom: 1px solid #292934;
+            align-items: center;
+        }
+
+        .date-row:last-child {
+            border-bottom: none;
+        }
+
+        .date-row.header {
+            color: #999;
+            background: #111116;
+            font-size: 13px;
         }
 
         @media (max-width: 700px) {
@@ -201,6 +331,14 @@
             .heading h1 {
                 font-size: 26px;
             }
+
+            .date-row {
+                grid-template-columns: 80px 1fr 100px;
+            }
+
+            .date-row .time-column {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -219,7 +357,7 @@
 
     <div class="heading">
         <h1>Monthly Attendance</h1>
-        <p>View attendance records for all students by month.</p>
+        <p>View complete date-wise attendance records for all students.</p>
     </div>
 
     <div class="controls">
@@ -246,32 +384,127 @@
             href="/export-pdf?month={{ month }}"
             class="btn pdf-btn"
         >
-            Export PDF
+            Export Color PDF
         </a>
 
     </div>
 
+
+    <div class="date-box">
+
+        <h2>Check Attendance for a Specific Date</h2>
+
+        <form class="date-form" method="GET" action="/monthly-record">
+
+            <input
+                type="hidden"
+                name="month"
+                value="{{ month }}"
+            >
+
+            <label for="selected_date">
+                Select Date:
+            </label>
+
+            <input
+                type="date"
+                id="selected_date"
+                name="selected_date"
+                value="{{ selected_date }}"
+            >
+
+            <button type="submit" class="btn">
+                Check Date
+            </button>
+
+        </form>
+
+        {% if selected_date %}
+
+        <div class="date-stats">
+
+            <div class="stat">
+                <div class="stat-title">Selected Date</div>
+                <div class="stat-value">
+                    {{ selected_date }}
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">Present Students</div>
+                <div class="stat-value present-text">
+                    {{ selected_present }}
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">Absent Students</div>
+                <div class="stat-value absent-text">
+                    {{ selected_absent }}
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">Total Students</div>
+                <div class="stat-value">
+                    {{ selected_total }}
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">Attendance</div>
+                <div class="stat-value">
+                    {{ selected_percentage }}%
+                </div>
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
     <div class="table-box">
 
         <div class="table-header">
-            <h2>Attendance Summary</h2>
-            <div class="month-text">{{ month }}</div>
+
+            <h2>Attendance Register</h2>
+
+            <div class="month-text">
+                {{ month }}
+            </div>
+
         </div>
+
 
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>Roll No.</th>
-                    <th>Name</th>
-                    <th>Father's Name</th>
-                    <th>Class</th>
+
+                    <th class="student-name">
+                        Student Name
+                    </th>
+
+                    {% for day in days %}
+                    <th>
+                        {{ day }}
+                    </th>
+                    {% endfor %}
+
                     <th>Present</th>
                     <th>Absent</th>
                     <th>Total</th>
                     <th>Percentage</th>
+
                 </tr>
+
             </thead>
+
 
             <tbody>
 
@@ -279,19 +512,53 @@
 
                 <tr>
 
-                    <td>{{ record.roll_number }}</td>
+                    <td>
+                        {{ record.roll_number }}
+                    </td>
 
-                    <td>{{ record.name }}</td>
+                    <td class="student-name">
+                        {{ record.name }}
+                    </td>
 
-                    <td>{{ record.father_name }}</td>
 
-                    <td>{{ record.class_name }}</td>
+                    {% for day in days %}
 
-                    <td>{{ record.present }}</td>
+                        {% set status = record.daily.get(day) %}
 
-                    <td>{{ record.absent }}</td>
+                        {% if status == "Present" %}
 
-                    <td>{{ record.total }}</td>
+                        <td class="day-cell present-cell">
+                            PRESENT
+                        </td>
+
+                        {% elif status == "Absent" %}
+
+                        <td class="day-cell absent-cell">
+                            ABSENT
+                        </td>
+
+                        {% else %}
+
+                        <td class="day-cell not-marked">
+                            —
+                        </td>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                    <td class="present-text">
+                        {{ record.present }}
+                    </td>
+
+                    <td class="absent-text">
+                        {{ record.absent }}
+                    </td>
+
+                    <td>
+                        {{ record.total }}
+                    </td>
 
                     <td class="percentage
                         {% if record.percentage >= 75 %}
@@ -310,9 +577,14 @@
                 {% else %}
 
                 <tr>
-                    <td colspan="8" class="empty">
+
+                    <td
+                        colspan="{{ days|length + 6 }}"
+                        class="empty"
+                    >
                         No students registered yet.
                     </td>
+
                 </tr>
 
                 {% endfor %}
@@ -322,6 +594,60 @@
         </table>
 
     </div>
+
+
+    {% if selected_date %}
+
+    <div class="table-box date-details">
+
+        <h3>
+            Attendance Details — {{ selected_date }}
+        </h3>
+
+        <div class="date-list">
+
+            <div class="date-row header">
+                <div>Roll No.</div>
+                <div>Student Name</div>
+                <div>Status</div>
+                <div class="time-column">Time</div>
+            </div>
+
+            {% for student in selected_records %}
+
+            <div class="date-row">
+
+                <div>
+                    {{ student.roll_number }}
+                </div>
+
+                <div>
+                    {{ student.name }}
+                </div>
+
+                <div class="
+                    {% if student.status == 'Present' %}
+                        present-text
+                    {% else %}
+                        absent-text
+                    {% endif %}
+                ">
+                    {{ student.status|upper }}
+                </div>
+
+                <div class="time-column">
+                    {{ student.time }}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
 
 </main>
 
