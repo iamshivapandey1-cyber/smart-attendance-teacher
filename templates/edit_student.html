@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Student | SmartAttendance</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(255, 59, 48, 0.08), transparent 30%),
+                #09090d;
+
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            height: 72px;
+
+            background: #111116;
+            border-bottom: 1px solid #292934;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 40px;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #ff3b30;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #ddd;
+
+            background: #191920;
+            border: 1px solid #30303b;
+
+            padding: 10px 17px;
+
+            border-radius: 10px;
+        }
+
+        main {
+            max-width: 850px;
+            margin: auto;
+
+            padding: 45px 20px 70px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #858591;
+        }
+
+        .form-box {
+            background: #15151c;
+
+            border: 1px solid #292934;
+
+            border-radius: 22px;
+
+            padding: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+        .field label {
+            display: block;
+
+            color: #9999a5;
+
+            font-size: 13px;
+
+            margin-bottom: 8px;
+        }
+
+        .field input {
+            width: 100%;
+
+            background: #0f0f15;
+
+            color: white;
+
+            border: 1px solid #30303b;
+
+            border-radius: 11px;
+
+            padding: 13px 14px;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        .field input:focus {
+            border-color: #ff3b30;
+
+            box-shadow:
+                0 0 0 3px rgba(255, 59, 48, 0.08);
+        }
+
+        .actions {
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 12px;
+
+            margin-top: 28px;
+        }
+
+        .btn {
+            border: none;
+
+            text-decoration: none;
+
+            padding: 12px 20px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+        .cancel {
+            background: #292934;
+            color: white;
+        }
+
+        .save {
+            background: #ff3b30;
+            color: white;
+        }
+
+        .error {
+            background: #351b1b;
+
+            border: 1px solid #603030;
+
+            color: #ff8b8b;
+
+            padding: 13px;
+
+            border-radius: 10px;
+
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 650px) {
+
+            header {
+                padding: 0 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-box {
+                padding: 20px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Smart<span>Attendance</span>
+    </div>
+
+    <a
+        href="/student/{{ student.id }}"
+        class="back"
+    >
+        ← Profile
+    </a>
+
+</header>
+
+
+<main>
+
+    <div class="heading">
+
+        <h1>
+            Edit Student
+        </h1>
+
+        <p>
+            Update this student's information.
+        </p>
+
+    </div>
+
+
+    <div class="form-box">
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            <div class="form-grid">
+
+
+                <div class="field">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        value="{{ student.name }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Father's Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="father_name"
+                        value="{{ student.father_name }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Class
+                    </label>
+
+                    <input
+                        type="text"
+                        name="class_name"
+                        value="{{ student.class_name }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Roll Number
+                    </label>
+
+                    <input
+                        type="text"
+                        name="roll_number"
+                        value="{{ student.roll_number }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        value="{{ student.email }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Contact
+                    </label>
+
+                    <input
+                        type="text"
+                        name="contact"
+                        value="{{ student.contact }}"
+                        required
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <div class="actions">
+
+                <a
+                    href="/student/{{ student.id }}"
+                    class="btn cancel"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="btn save"
+                >
+                    Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+</body>
+
+</html>
