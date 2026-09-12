@@ -37,7 +37,7 @@ supabase = create_client(
 
 TEACHER_EMAIL = "shivapandey1418@gmail.com"
 
-# Keep your existing teacher password here for now.
+
 TEACHER_PASSWORD = "shiva@121929"
 
 
@@ -97,6 +97,83 @@ def dashboard():
         print("DASHBOARD ERROR:", repr(error))
 
         return "Unable to load student data."
+
+
+@app.route("/create-student", methods=["GET", "POST"])
+def create_student():
+    if not session.get("teacher_logged_in"):
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        father_name = request.form.get("father_name", "").strip()
+        class_name = request.form.get("class_name", "").strip()
+        roll_number = request.form.get("roll_number", "").strip()
+        email = request.form.get("email", "").strip()
+        contact = request.form.get("contact", "").strip()
+        password = request.form.get("password", "")
+
+        if not all([
+            name, father_name, class_name,
+            roll_number, email, contact, password
+        ]):
+            return render_template(
+                "create_student.html",
+                error="Please fill in all fields."
+            )
+
+        try:
+            # Check duplicate email
+            email_check = (
+                supabase
+                .table("students")
+                .select("id")
+                .eq("email", email)
+                .execute()
+            )
+
+            if email_check.data:
+                return render_template(
+                    "create_student.html",
+                    error="A student with this email already exists."
+                )
+
+            # Check duplicate roll number
+            roll_check = (
+                supabase
+                .table("students")
+                .select("id")
+                .eq("roll_number", roll_number)
+                .execute()
+            )
+
+            if roll_check.data:
+                return render_template(
+                    "create_student.html",
+                    error="A student with this roll number already exists."
+                )
+
+            # Create student account
+            supabase.table("students").insert({
+                "name": name,
+                "father_name": father_name,
+                "class_name": class_name,
+                "roll_number": roll_number,
+                "email": email,
+                "contact": contact,
+                "password": password
+            }).execute()
+
+            return redirect(url_for("dashboard"))
+
+        except Exception as error:
+            print("CREATE STUDENT ERROR:", repr(error))
+            return render_template(
+                "create_student.html",
+                error="Unable to create student account. Please try again."
+            )
+
+    return render_template("create_student.html")
 
 
 # ================= GENERATE QR =================
@@ -1172,7 +1249,9 @@ def students():
         result = (
             supabase
             .table("students")
-            .select("id,name,father_name,class_name,roll_number,email,contact")
+            .select(
+                "id,name,father_name,class_name,roll_number,email,contact"
+            )
             .order("roll_number")
             .execute()
         )
@@ -1185,8 +1264,9 @@ def students():
         )
 
     except Exception as error:
-            print("STUDENT PROFILE ERROR:", repr(error))
-    return "Unable to load students profile."
+        print("STUDENTS ERROR:", repr(error))
+        return "Unable to load students."
+
 
 @app.route("/student/<int:student_id>")
 def student_profile(student_id):
@@ -1194,26 +1274,26 @@ def student_profile(student_id):
         return redirect(url_for("login"))
 
     try:
-        student_result = (
+        result = (
             supabase
             .table("students")
             .select(
-                "id,name,father_name,class_name,roll_number,email,contact"
+                "id,name,father_name,class_name,"
+                "roll_number,email,contact,password"
             )
             .eq("id", student_id)
-            .single()
             .execute()
         )
 
-        student = student_result.data
+        if not result.data:
+            return "Student profile not found."
 
-        if not student:
-            return "Student not found."
+        student = result.data[0]
 
         attendance_result = (
             supabase
             .table("attendance")
-            .select("id,date,time,status")
+            .select("date,time,status")
             .eq("student_id", student_id)
             .order("date", desc=True)
             .execute()
@@ -1221,29 +1301,32 @@ def student_profile(student_id):
 
         attendance = attendance_result.data or []
 
-        present = sum(
-            1 for record in attendance
+        present_count = sum(
+            1
+            for record in attendance
             if record["status"] == "Present"
         )
 
-        absent = sum(
-            1 for record in attendance
+        absent_count = sum(
+            1
+            for record in attendance
             if record["status"] == "Absent"
         )
 
-        total = present + absent
+        total = present_count + absent_count
 
         percentage = (
-            round((present / total) * 100, 2)
-            if total > 0 else 0
+            round((present_count / total) * 100, 2)
+            if total > 0
+            else 0
         )
 
         return render_template(
             "student_profile.html",
             student=student,
             attendance=attendance,
-            present=present,
-            absent=absent,
+            present_count=present_count,
+            absent_count=absent_count,
             total=total,
             percentage=percentage
         )
@@ -1263,7 +1346,8 @@ def edit_student(student_id):
             supabase
             .table("students")
             .select(
-                "id,name,father_name,class_name,roll_number,email,contact"
+                "id,name,father_name,class_name,"
+                "roll_number,email,contact"
             )
             .eq("id", student_id)
             .single()
@@ -1305,7 +1389,9 @@ def edit_student(student_id):
                 "roll_number": roll_number,
                 "email": email,
                 "contact": contact
-            }).eq("id", student_id).execute()
+            }).eq(
+                "id", student_id
+            ).execute()
 
             return redirect(
                 url_for(
