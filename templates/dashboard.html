@@ -17,15 +17,28 @@
 
         body {
             background:
-                radial-gradient(circle at top left, rgba(255, 59, 48, 0.08), transparent 30%),
+                radial-gradient(
+                    circle at 0% 0%,
+                    rgba(255, 59, 48, 0.10),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 100% 20%,
+                    rgba(120, 80, 255, 0.06),
+                    transparent 25%
+                ),
                 #09090d;
+
             color: white;
             min-height: 100vh;
         }
 
+        /* ================= HEADER ================= */
+
         header {
             height: 72px;
-            background: rgba(17, 17, 22, 0.94);
+
+            background: rgba(17, 17, 22, 0.92);
             border-bottom: 1px solid #292934;
 
             display: flex;
@@ -38,47 +51,75 @@
             top: 0;
             z-index: 100;
 
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(18px);
         }
 
         .logo {
             font-size: 23px;
-            font-weight: bold;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .logo span {
             color: #ff3b30;
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .teacher-badge {
+            color: #9b9ba7;
+            font-size: 13px;
+        }
+
         .logout {
             text-decoration: none;
             color: #ddd;
+
             background: #191920;
             border: 1px solid #30303b;
 
             padding: 10px 17px;
             border-radius: 10px;
 
-            transition: 0.2s;
+            font-size: 14px;
+
+            transition: 0.2s ease;
         }
 
         .logout:hover {
-            background: #2a2a34;
+            background: #25252e;
             color: white;
+            border-color: #444451;
         }
+
+        /* ================= MAIN ================= */
 
         main {
             max-width: 1250px;
             margin: auto;
-            padding: 45px 22px 60px;
+
+            padding: 42px 22px 70px;
         }
 
-        .heading {
+        /* ================= HEADING ================= */
+
+        .heading-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 20px;
+
             margin-bottom: 30px;
         }
 
         .heading h1 {
-            font-size: 34px;
+            font-size: 35px;
+            letter-spacing: -1px;
             margin-bottom: 8px;
         }
 
@@ -87,26 +128,89 @@
             font-size: 15px;
         }
 
+        /* CREATE BUTTON */
+
+        .create-student-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+
+            text-decoration: none;
+
+            color: white;
+
+            background: linear-gradient(
+                135deg,
+                #ff3b30,
+                #e52e27
+            );
+
+            border: 1px solid rgba(255, 100, 90, 0.5);
+
+            padding: 13px 19px;
+
+            border-radius: 11px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            box-shadow:
+                0 8px 25px rgba(255, 59, 48, 0.18);
+
+            transition: 0.22s ease;
+        }
+
+        .create-student-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 32px rgba(255, 59, 48, 0.28);
+
+            filter: brightness(1.08);
+        }
+
+        .plus {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        /* ================= STATS ================= */
+
         .stats {
             display: grid;
+
             grid-template-columns: repeat(3, 1fr);
+
             gap: 20px;
-            margin-bottom: 28px;
+
+            margin-bottom: 32px;
         }
 
         .stat-card {
+            position: relative;
+
             display: block;
+
+            min-height: 165px;
+
+            padding: 27px;
+
             text-decoration: none;
             color: white;
 
-            background: linear-gradient(145deg, #17171f, #111117);
+            background:
+                linear-gradient(
+                    145deg,
+                    #181820,
+                    #111117
+                );
 
             border: 1px solid #2c2c37;
+
             border-radius: 19px;
 
-            padding: 28px;
-
-            min-height: 165px;
+            overflow: hidden;
 
             transition:
                 transform 0.25s ease,
@@ -114,51 +218,106 @@
                 box-shadow 0.25s ease;
         }
 
+        .stat-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            right: -45px;
+            bottom: -45px;
+
+            background: rgba(255, 59, 48, 0.08);
+
+            border-radius: 50%;
+
+            filter: blur(5px);
+        }
+
         .stat-card:hover {
             transform: translateY(-5px);
+
             border-color: #ff3b30;
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+
+            box-shadow:
+                0 18px 45px rgba(0, 0, 0, 0.38);
         }
 
         .stat-icon {
-            font-size: 29px;
-            margin-bottom: 16px;
+            font-size: 28px;
+            margin-bottom: 17px;
         }
 
         .stat-card h2 {
-            font-size: 30px;
+            font-size: 29px;
             margin-bottom: 6px;
         }
 
         .stat-card p {
             color: #858591;
+            font-size: 14px;
         }
 
         .student-link {
             color: #ff5c54 !important;
+
             margin-top: 12px;
+
+            font-size: 13px !important;
+            font-weight: 700;
+        }
+
+        /* ================= QUICK ACTIONS ================= */
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 16px;
+        }
+
+        .section-heading h2 {
+            font-size: 20px;
+        }
+
+        .section-heading span {
+            color: #666672;
             font-size: 13px;
-            font-weight: bold;
         }
 
         .actions {
             display: grid;
+
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+
+            gap: 18px;
+
+            margin-bottom: 34px;
         }
 
         .action-card {
+            position: relative;
+
             display: block;
+
+            padding: 24px;
+
             text-decoration: none;
             color: white;
 
-            background: linear-gradient(145deg, #17171f, #111117);
+            background:
+                linear-gradient(
+                    145deg,
+                    #17171f,
+                    #111117
+                );
 
             border: 1px solid #2c2c37;
-            border-radius: 19px;
 
-            padding: 28px;
+            border-radius: 17px;
 
             transition:
                 transform 0.25s ease,
@@ -167,30 +326,76 @@
         }
 
         .action-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
+
             border-color: #ff3b30;
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+
+            box-shadow:
+                0 16px 40px rgba(0, 0, 0, 0.32);
+        }
+
+        .action-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 17px;
         }
 
         .action-icon {
-            font-size: 30px;
-            margin-bottom: 16px;
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #202029;
+
+            border: 1px solid #30303b;
+
+            border-radius: 12px;
+
+            font-size: 22px;
+        }
+
+        .arrow {
+            color: #666672;
+            font-size: 18px;
+
+            transition: 0.2s;
+        }
+
+        .action-card:hover .arrow {
+            color: #ff5c54;
+            transform: translateX(3px);
         }
 
         .action-card h3 {
-            font-size: 19px;
+            font-size: 18px;
             margin-bottom: 7px;
         }
 
         .action-card p {
             color: #858591;
-            font-size: 14px;
+            font-size: 13px;
+            line-height: 1.5;
         }
 
+        /* ================= STUDENTS ================= */
+
         .students-box {
-            background: #15151c;
+            background:
+                linear-gradient(
+                    145deg,
+                    #15151c,
+                    #111117
+                );
+
             border: 1px solid #292934;
+
             border-radius: 20px;
+
             padding: 28px;
         }
 
@@ -198,6 +403,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             margin-bottom: 22px;
         }
 
@@ -205,39 +411,112 @@
             font-size: 21px;
         }
 
+        .students-subtitle {
+            color: #666672;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
         .view-all {
             text-decoration: none;
+
             color: #ff5c54;
+
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+        .view-all:hover {
+            color: #ff8179;
         }
 
         .table-wrapper {
             overflow-x: auto;
+
+            border: 1px solid #292934;
+            border-radius: 14px;
         }
 
         table {
             width: 100%;
+
             border-collapse: collapse;
+
             min-width: 800px;
         }
 
         th,
         td {
             padding: 15px;
+
             text-align: left;
+
             border-bottom: 1px solid #292934;
         }
 
         th {
-            color: #858591;
-            font-size: 13px;
+            color: #777783;
+
+            background: #111117;
+
+            font-size: 12px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.5px;
         }
 
         td {
             color: #ddd;
+
             font-size: 14px;
+
+            background: #15151c;
         }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr {
+            transition: 0.18s ease;
+        }
+
+        tbody tr:hover td {
+            background: #1a1a22;
+        }
+
+        .student-name {
+            color: white;
+            font-weight: 600;
+        }
+
+        .roll {
+            color: #ff6b63;
+            font-weight: 600;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777783;
+            padding: 30px !important;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            text-align: center;
+
+            color: #4f4f59;
+
+            font-size: 12px;
+
+            margin-top: 35px;
+        }
+
+        /* ================= RESPONSIVE ================= */
 
         @media (max-width: 850px) {
 
@@ -248,12 +527,25 @@
             .actions {
                 grid-template-columns: 1fr;
             }
+
+            .heading-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .create-student-btn {
+                width: 100%;
+            }
         }
 
         @media (max-width: 600px) {
 
             header {
                 padding: 0 15px;
+            }
+
+            .teacher-badge {
+                display: none;
             }
 
             main {
@@ -264,14 +556,26 @@
                 font-size: 28px;
             }
 
+            .stat-card {
+                min-height: 145px;
+            }
+
             .students-box {
+                padding: 18px;
+            }
+
+            .action-card {
                 padding: 20px;
             }
         }
     </style>
 </head>
 
+
 <body>
+
+
+<!-- ================= HEADER ================= -->
 
 <header>
 
@@ -279,31 +583,80 @@
         Smart<span>Attendance</span>
     </div>
 
-    <a href="/logout" class="logout">
-        Logout
-    </a>
+    <div class="header-right">
+
+        <span class="teacher-badge">
+            Teacher Panel
+        </span>
+
+        <a href="/logout" class="logout">
+            Logout
+        </a>
+
+    </div>
 
 </header>
 
+
+<!-- ================= MAIN ================= -->
+
 <main>
 
-    <div class="heading">
-        <h1>Teacher Dashboard</h1>
-        <p>Manage your students and attendance.</p>
+
+    <!-- HEADING -->
+
+    <div class="heading-row">
+
+        <div class="heading">
+
+            <h1>
+                Teacher Dashboard
+            </h1>
+
+            <p>
+                Manage your students and attendance.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('create_student') }}"
+            class="create-student-btn"
+        >
+
+            <span class="plus">＋</span>
+
+            Create Student Account
+
+        </a>
+
     </div>
 
 
-    <!-- STAT CARDS -->
+    <!-- ================= STATS ================= -->
 
     <div class="stats">
 
-        <a href="/students" class="stat-card">
 
-            <div class="stat-icon">👨‍🎓</div>
+        <!-- TOTAL STUDENTS -->
 
-            <h2>{{ students|length }}</h2>
+        <a
+            href="/students"
+            class="stat-card"
+        >
 
-            <p>Total Students</p>
+            <div class="stat-icon">
+                👨‍🎓
+            </div>
+
+            <h2>
+                {{ students|length }}
+            </h2>
+
+            <p>
+                Total Students
+            </p>
 
             <p class="student-link">
                 View All Students →
@@ -312,39 +665,95 @@
         </a>
 
 
-        <a href="/today-attendance" class="stat-card">
+        <!-- TODAY ATTENDANCE -->
 
-            <div class="stat-icon">🗓️</div>
+        <a
+            href="/today-attendance"
+            class="stat-card"
+        >
 
-            <h2>Attendance</h2>
+            <div class="stat-icon">
+                🗓️
+            </div>
 
-            <p>Today's Attendance</p>
+            <h2>
+                Attendance
+            </h2>
+
+            <p>
+                Today's Attendance
+            </p>
 
         </a>
 
 
-        <a href="/monthly-record" class="stat-card">
+        <!-- MONTHLY -->
 
-            <div class="stat-icon">📊</div>
+        <a
+            href="/monthly-record"
+            class="stat-card"
+        >
 
-            <h2>Monthly</h2>
+            <div class="stat-icon">
+                📊
+            </div>
 
-            <p>Attendance Records</p>
+            <h2>
+                Monthly
+            </h2>
+
+            <p>
+                Attendance Records
+            </p>
 
         </a>
+
 
     </div>
 
 
-    <!-- ACTION CARDS -->
+    <!-- ================= QUICK ACTIONS ================= -->
+
+    <div class="section-heading">
+
+        <div>
+            <h2>
+                Quick Actions
+            </h2>
+        </div>
+
+        <span>
+            Manage attendance
+        </span>
+
+    </div>
+
 
     <div class="actions">
 
-        <a href="/generate-qr" class="action-card">
 
-            <div class="action-icon">📷</div>
+        <!-- GENERATE QR -->
 
-            <h3>Generate QR</h3>
+        <a
+            href="/generate-qr"
+            class="action-card"
+        >
+
+            <div class="action-top">
+
+                <div class="action-icon">
+                    📷
+                </div>
+
+                <div class="arrow">
+                    →
+                </div>
+
+            </div>
+
+            <h3>
+                Generate QR
+            </h3>
 
             <p>
                 Generate a QR code for today's attendance.
@@ -353,11 +762,28 @@
         </a>
 
 
-        <a href="/today-attendance" class="action-card">
+        <!-- TODAY -->
 
-            <div class="action-icon">🗓️</div>
+        <a
+            href="/today-attendance"
+            class="action-card"
+        >
 
-            <h3>Today's Attendance</h3>
+            <div class="action-top">
+
+                <div class="action-icon">
+                    🗓️
+                </div>
+
+                <div class="arrow">
+                    →
+                </div>
+
+            </div>
+
+            <h3>
+                Today's Attendance
+            </h3>
 
             <p>
                 View today's present and absent students.
@@ -366,43 +792,93 @@
         </a>
 
 
-        <a href="/monthly-record" class="action-card">
+        <!-- MONTHLY -->
 
-            <div class="action-icon">📊</div>
+        <a
+            href="/monthly-record"
+            class="action-card"
+        >
 
-            <h3>Monthly Record</h3>
+            <div class="action-top">
+
+                <div class="action-icon">
+                    📊
+                </div>
+
+                <div class="arrow">
+                    →
+                </div>
+
+            </div>
+
+            <h3>
+                Monthly Record
+            </h3>
 
             <p>
-                View complete monthly attendance.
+                View complete monthly attendance records.
             </p>
 
         </a>
 
 
-        <a href="/export-pdf" class="action-card">
+        <!-- EXPORT -->
 
-            <div class="action-icon">📥</div>
+        <a
+            href="/export-pdf"
+            class="action-card"
+        >
 
-            <h3>Export Records</h3>
+            <div class="action-top">
+
+                <div class="action-icon">
+                    📥
+                </div>
+
+                <div class="arrow">
+                    →
+                </div>
+
+            </div>
+
+            <h3>
+                Export Records
+            </h3>
 
             <p>
-                Download attendance records as PDF.
+                Download attendance records as a PDF file.
             </p>
 
         </a>
+
 
     </div>
 
 
-    <!-- RECENT STUDENTS -->
+    <!-- ================= STUDENTS ================= -->
 
     <div class="students-box">
 
+
         <div class="students-title">
 
-            <h2>Registered Students</h2>
+            <div>
 
-            <a href="/students" class="view-all">
+                <h2>
+                    Registered Students
+                </h2>
+
+                <div class="students-subtitle">
+                    Students currently registered in SmartAttendance
+                </div>
+
+            </div>
+
+
+            <a
+                href="/students"
+                class="view-all"
+            >
                 View All →
             </a>
 
@@ -416,15 +892,35 @@
                 <thead>
 
                     <tr>
-                        <th>Roll No.</th>
-                        <th>Name</th>
-                        <th>Father Name</th>
-                        <th>Class</th>
-                        <th>Email</th>
-                        <th>Contact</th>
+
+                        <th>
+                            Roll No.
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Father's Name
+                        </th>
+
+                        <th>
+                            Class
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Contact
+                        </th>
+
                     </tr>
 
                 </thead>
+
 
                 <tbody>
 
@@ -432,17 +928,29 @@
 
                     <tr>
 
-                        <td>{{ student.roll_number }}</td>
+                        <td class="roll">
+                            {{ student.roll_number }}
+                        </td>
 
-                        <td>{{ student.name }}</td>
+                        <td class="student-name">
+                            {{ student.name }}
+                        </td>
 
-                        <td>{{ student.father_name }}</td>
+                        <td>
+                            {{ student.father_name }}
+                        </td>
 
-                        <td>{{ student.class_name }}</td>
+                        <td>
+                            {{ student.class_name }}
+                        </td>
 
-                        <td>{{ student.email }}</td>
+                        <td>
+                            {{ student.email }}
+                        </td>
 
-                        <td>{{ student.contact }}</td>
+                        <td>
+                            {{ student.contact }}
+                        </td>
 
                     </tr>
 
@@ -450,7 +958,10 @@
 
                     <tr>
 
-                        <td colspan="6">
+                        <td
+                            colspan="6"
+                            class="empty"
+                        >
                             No students registered yet.
                         </td>
 
@@ -466,7 +977,14 @@
 
     </div>
 
+
+    <div class="footer">
+        SmartAttendance • Teacher Management Panel
+    </div>
+
+
 </main>
+
 
 </body>
 
