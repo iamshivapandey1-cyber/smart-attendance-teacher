@@ -19,12 +19,18 @@
 
         body {
             background:
-                radial-gradient(circle at top left, rgba(255, 59, 48, 0.08), transparent 30%),
+                radial-gradient(
+                    circle at top left,
+                    rgba(255, 59, 48, 0.08),
+                    transparent 30%
+                ),
                 #09090d;
 
             color: white;
             min-height: 100vh;
         }
+
+        /* ================= HEADER ================= */
 
         header {
             height: 72px;
@@ -37,6 +43,12 @@
             justify-content: space-between;
 
             padding: 0 40px;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            backdrop-filter: blur(15px);
         }
 
         .logo {
@@ -57,7 +69,16 @@
 
             padding: 10px 17px;
             border-radius: 10px;
+
+            transition: 0.2s ease;
         }
+
+        .back:hover {
+            background: #292932;
+            color: white;
+        }
+
+        /* ================= MAIN ================= */
 
         main {
             max-width: 1150px;
@@ -66,17 +87,22 @@
             padding: 42px 20px 70px;
         }
 
+        /* ================= PROFILE HEADER ================= */
+
         .profile-header {
             display: flex;
             align-items: center;
             gap: 24px;
 
             padding: 30px;
-
             margin-bottom: 22px;
 
             background:
-                linear-gradient(145deg, #181820, #111117);
+                linear-gradient(
+                    145deg,
+                    #181820,
+                    #111117
+                );
 
             border: 1px solid #30303b;
             border-radius: 22px;
@@ -96,27 +122,38 @@
             border-radius: 24px;
 
             font-size: 42px;
+
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            min-width: 0;
         }
 
         .profile-info h1 {
             font-size: 32px;
             margin-bottom: 7px;
+
+            word-break: break-word;
         }
 
         .profile-info p {
             color: #9999a5;
         }
 
+        /* ================= ACTIONS ================= */
+
         .actions {
             margin-left: auto;
 
             display: flex;
             gap: 10px;
+
+            flex-shrink: 0;
         }
 
         .btn {
             border: none;
-
             text-decoration: none;
 
             padding: 11px 17px;
@@ -132,13 +169,28 @@
         .edit {
             background: #ff3b30;
             color: white;
+
+            transition: 0.2s ease;
+        }
+
+        .edit:hover {
+            background: #e93229;
+            transform: translateY(-1px);
         }
 
         .delete {
             background: #321b1b;
             border: 1px solid #5a2929;
             color: #ff7777;
+
+            transition: 0.2s ease;
         }
+
+        .delete:hover {
+            background: #442020;
+        }
+
+        /* ================= STATS ================= */
 
         .stats {
             display: grid;
@@ -151,13 +203,25 @@
         }
 
         .stat {
-            background: #15151c;
+            background:
+                linear-gradient(
+                    145deg,
+                    #17171f,
+                    #111117
+                );
 
             border: 1px solid #292934;
 
             border-radius: 17px;
 
             padding: 22px;
+
+            transition: 0.2s ease;
+        }
+
+        .stat:hover {
+            border-color: #3a3a47;
+            transform: translateY(-2px);
         }
 
         .stat h2 {
@@ -170,8 +234,15 @@
             font-size: 13px;
         }
 
+        /* ================= SECTION ================= */
+
         .section {
-            background: #15151c;
+            background:
+                linear-gradient(
+                    145deg,
+                    #15151c,
+                    #111117
+                );
 
             border: 1px solid #292934;
 
@@ -186,6 +257,8 @@
             font-size: 21px;
             margin-bottom: 20px;
         }
+
+        /* ================= DETAILS ================= */
 
         .details {
             display: grid;
@@ -203,6 +276,8 @@
             border-radius: 13px;
 
             padding: 16px;
+
+            min-width: 0;
         }
 
         .detail label {
@@ -218,7 +293,73 @@
         .detail span {
             color: #ddd;
             font-size: 15px;
+
+            word-break: break-word;
         }
+
+        /* ================= PASSWORD ================= */
+
+        .password-box {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .password-box input {
+            flex: 1;
+            min-width: 0;
+
+            background: #111117;
+
+            border: 1px solid #30303b;
+
+            color: #ffffff;
+
+            padding: 11px 13px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+        .password-box input:focus {
+            border-color: #ff3b30;
+        }
+
+        .password-toggle {
+            flex-shrink: 0;
+
+            width: 43px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #191920;
+
+            border: 1px solid #30303b;
+
+            color: #ffffff;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            transition: 0.2s ease;
+        }
+
+        .password-toggle:hover {
+            background: #25252e;
+            border-color: #444451;
+        }
+
+        /* ================= TABLE ================= */
 
         .table-wrapper {
             overflow-x: auto;
@@ -244,10 +385,21 @@
         th {
             color: #858591;
             font-size: 13px;
+
+            background: #111117;
         }
 
         td {
             color: #ddd;
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition: 0.15s ease;
+        }
+
+        tbody tr:hover td {
+            background: #1a1a22;
         }
 
         .present {
@@ -262,9 +414,13 @@
 
         .empty {
             color: #777783;
+
             text-align: center;
+
             padding: 30px;
         }
+
+        /* ================= RESPONSIVE ================= */
 
         @media (max-width: 850px) {
 
@@ -275,18 +431,46 @@
 
             .actions {
                 margin-left: 0;
+                width: 100%;
+            }
+
+            .actions .btn {
+                flex: 1;
+                text-align: center;
             }
 
             .stats {
                 grid-template-columns: repeat(2, 1fr);
             }
-
         }
 
         @media (max-width: 600px) {
 
             header {
                 padding: 0 15px;
+            }
+
+            .back {
+                padding: 9px 12px;
+                font-size: 13px;
+            }
+
+            main {
+                padding: 30px 15px 50px;
+            }
+
+            .profile-header {
+                padding: 22px;
+            }
+
+            .avatar {
+                width: 75px;
+                height: 75px;
+                font-size: 34px;
+            }
+
+            .profile-info h1 {
+                font-size: 26px;
             }
 
             .details {
@@ -297,22 +481,20 @@
                 grid-template-columns: 1fr;
             }
 
-            .actions {
-                width: 100%;
+            .section {
+                padding: 20px;
             }
-
-            .actions .btn {
-                flex: 1;
-                text-align: center;
-            }
-
         }
 
     </style>
 
 </head>
 
+
 <body>
+
+
+<!-- ================= HEADER ================= -->
 
 <header>
 
@@ -327,10 +509,15 @@
 </header>
 
 
+<!-- ================= MAIN ================= -->
+
 <main>
 
 
+    <!-- ================= PROFILE HEADER ================= -->
+
     <div class="profile-header">
+
 
         <div class="avatar">
             👤
@@ -353,6 +540,7 @@
 
 
         <div class="actions">
+
 
             <a
                 href="/student/{{ student.id }}/edit"
@@ -377,19 +565,21 @@
 
             </form>
 
+
         </div>
 
     </div>
 
 
-    <!-- ATTENDANCE STATS -->
+    <!-- ================= ATTENDANCE STATS ================= -->
 
     <div class="stats">
+
 
         <div class="stat">
 
             <h2>
-                {{ present }}
+                {{ present_count }}
             </h2>
 
             <p>
@@ -402,7 +592,7 @@
         <div class="stat">
 
             <h2>
-                {{ absent }}
+                {{ absent_count }}
             </h2>
 
             <p>
@@ -437,10 +627,11 @@
 
         </div>
 
+
     </div>
 
 
-    <!-- STUDENT INFORMATION -->
+    <!-- ================= STUDENT INFORMATION ================= -->
 
     <div class="section">
 
@@ -450,6 +641,7 @@
 
 
         <div class="details">
+
 
             <div class="detail">
 
@@ -528,12 +720,62 @@
 
             </div>
 
+
         </div>
 
     </div>
 
 
-    <!-- ATTENDANCE HISTORY -->
+    <!-- ================= ACCOUNT PASSWORD ================= -->
+
+    <div class="section">
+
+        <h2>
+            Account Password
+        </h2>
+
+
+        <div class="details">
+
+
+            <div class="detail">
+
+                <label>
+                    Password
+                </label>
+
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="studentPassword"
+                        value="{{ student.password }}"
+                        readonly
+                    >
+
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="passwordToggle"
+                        onclick="togglePassword()"
+                        aria-label="Show password"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ATTENDANCE HISTORY ================= -->
 
     <div class="section">
 
@@ -549,15 +791,26 @@
                 <thead>
 
                     <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Status</th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Time
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
                     </tr>
 
                 </thead>
 
 
                 <tbody>
+
 
                     {% for record in attendance %}
 
@@ -606,6 +859,7 @@
 
                     {% endfor %}
 
+
                 </tbody>
 
             </table>
@@ -614,10 +868,55 @@
 
     </div>
 
+
 </main>
 
 
+<!-- ================= JAVASCRIPT ================= -->
+
 <script>
+
+
+function togglePassword() {
+
+    const passwordInput =
+        document.getElementById("studentPassword");
+
+    const toggleButton =
+        document.getElementById("passwordToggle");
+
+
+    if (!passwordInput || !toggleButton) {
+        return;
+    }
+
+
+    if (passwordInput.type === "password") {
+
+        passwordInput.type = "text";
+
+        toggleButton.textContent = "🙈";
+
+        toggleButton.setAttribute(
+            "aria-label",
+            "Hide password"
+        );
+
+    } else {
+
+        passwordInput.type = "password";
+
+        toggleButton.textContent = "👁";
+
+        toggleButton.setAttribute(
+            "aria-label",
+            "Show password"
+        );
+
+    }
+
+}
+
 
 function confirmDelete() {
 
@@ -627,7 +926,9 @@ function confirmDelete() {
 
 }
 
+
 </script>
+
 
 </body>
 
