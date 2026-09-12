@@ -175,7 +175,6 @@ def create_student():
 
     return render_template("create_student.html")
 
-
 # ================= GENERATE QR =================
 
 @app.route("/generate-qr")
@@ -186,18 +185,13 @@ def generate_qr():
 
     try:
 
-        # Deactivate previous QR sessions
-        supabase.table("attendance_sessions").update({
-            "active": False
-        }).eq("active", True).execute()
+        # Today's date
+        today = datetime.now().strftime("%Y-%m-%d")
 
         # Generate secure token
         token = secrets.token_urlsafe(32)
 
-        # Today's date
-        today = datetime.now().strftime("%Y-%m-%d")
-
-        # Save new QR session
+        # Save QR session
         supabase.table("attendance_sessions").insert({
             "token": token,
             "date": today,
@@ -228,8 +222,7 @@ def generate_qr():
         print("QR ERROR:", repr(error))
 
         return "Unable to generate QR code. Please try again."
-
-
+    
 # ================= TODAY'S ATTENDANCE =================
 
 @app.route("/today-attendance")
