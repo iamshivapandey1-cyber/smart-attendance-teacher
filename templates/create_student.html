@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Student Account | SmartAttendance</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 10% 0%,
+                    rgba(255, 59, 48, 0.12),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 90% 100%,
+                    rgba(255, 59, 48, 0.06),
+                    transparent 30%
+                ),
+                #09090d;
+
+            color: #ffffff;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 42px;
+
+            background: rgba(17, 17, 22, 0.88);
+
+            border-bottom: 1px solid #292934;
+
+            backdrop-filter: blur(18px);
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+        }
+
+        .logo span {
+            color: #ff3b30;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            text-decoration: none;
+
+            color: #c8c8d0;
+
+            background: #18181f;
+
+            border: 1px solid #30303b;
+
+            padding: 10px 15px;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .back-btn:hover {
+            color: white;
+            background: #24242c;
+            border-color: #41414d;
+            transform: translateY(-1px);
+        }
+
+        /* ================= PAGE ================= */
+
+        .container {
+            width: min(1050px, 92%);
+
+            margin: 0 auto;
+
+            padding: 48px 0 70px;
+        }
+
+        .page-heading {
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            color: #ff7068;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+
+            margin-bottom: 10px;
+        }
+
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+
+            background: #ff3b30;
+
+            border-radius: 50%;
+
+            box-shadow: 0 0 12px rgba(255, 59, 48, 0.7);
+        }
+
+        h1 {
+            font-size: 36px;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 9px;
+        }
+
+        .subtitle {
+            color: #858591;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+        }
+
+        /* ================= CARD ================= */
+
+        .card {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(25, 25, 33, 0.98),
+                    rgba(15, 15, 21, 0.98)
+                );
+
+            border: 1px solid #2c2c37;
+
+            border-radius: 22px;
+
+            padding: 34px;
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255,255,255,0.02);
+        }
+
+        /* ================= SECTION HEADER ================= */
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            margin-bottom: 22px;
+
+            padding-bottom: 15px;
+
+            border-bottom: 1px solid #292934;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255, 59, 48, 0.09);
+
+            border: 1px solid rgba(255, 59, 48, 0.18);
+
+            border-radius: 11px;
+
+            font-size: 19px;
+        }
+
+        .section-header h2 {
+            font-size: 17px;
+            margin-bottom: 3px;
+        }
+
+        .section-header p {
+            color: #70707c;
+            font-size: 12px;
+        }
+
+        /* ================= FORM GRID ================= */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+        .field {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            color: #c9c9d2;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+
+            left: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #666672;
+
+            font-size: 15px;
+
+            pointer-events: none;
+        }
+
+        input {
+            width: 100%;
+
+            height: 48px;
+
+            padding: 0 14px 0 42px;
+
+            background: #101016;
+
+            color: white;
+
+            border: 1px solid #30303b;
+
+            border-radius: 11px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            transition: 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #555561;
+        }
+
+        input:hover {
+            border-color: #3b3b48;
+        }
+
+        input:focus {
+            border-color: #ff3b30;
+
+            box-shadow:
+                0 0 0 3px rgba(255, 59, 48, 0.08);
+        }
+
+        /* ================= PASSWORD ================= */
+
+        .password-wrap {
+            position: relative;
+        }
+
+        .password-wrap input {
+            padding-right: 52px;
+        }
+
+        .show-password {
+            position: absolute;
+
+            right: 7px;
+            top: 7px;
+
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 0;
+
+            border-radius: 8px;
+
+            background: #191920;
+
+            color: #9b9ba5;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+            transition: 0.2s ease;
+        }
+
+        .show-password:hover {
+            color: white;
+            background: #27272f;
+        }
+
+        .password-hint {
+            color: #686874;
+
+            font-size: 11px;
+
+            margin-top: 2px;
+        }
+
+        /* ================= ERROR ================= */
+
+        .error {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 11px;
+
+            background: rgba(127, 29, 29, 0.18);
+
+            border: 1px solid #632727;
+
+            color: #ffaaa5;
+
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            margin-bottom: 25px;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .error-icon {
+            font-size: 16px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .form-footer {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding-top: 26px;
+
+            border-top: 1px solid #292934;
+        }
+
+        .footer-note {
+            color: #666672;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        .button-row {
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            flex-shrink: 0;
+        }
+
+        .cancel {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            height: 46px;
+
+            padding: 0 19px;
+
+            border-radius: 10px;
+
+            border: 1px solid #30303b;
+
+            background: #18181f;
+
+            color: #c5c5cd;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .cancel:hover {
+            background: #24242c;
+            color: white;
+        }
+
+        button.submit {
+            height: 46px;
+
+            padding: 0 22px;
+
+            border: 0;
+
+            border-radius: 10px;
+
+            background: #ff3b30;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 25px rgba(255, 59, 48, 0.18);
+
+            transition: 0.2s ease;
+        }
+
+        button.submit:hover {
+            background: #e9342a;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 12px 30px rgba(255, 59, 48, 0.25);
+        }
+
+        button.submit:active {
+            transform: translateY(0);
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            header {
+                padding: 0 20px;
+            }
+
+            .container {
+                width: min(94%, 650px);
+                padding-top: 35px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .form-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .button-row {
+                width: 100%;
+            }
+
+            .button-row a,
+            .button-row button {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            header {
+                height: 64px;
+                padding: 0 15px;
+            }
+
+            .logo {
+                font-size: 19px;
+            }
+
+            .back-btn {
+                padding: 9px 11px;
+                font-size: 12px;
+            }
+
+            .container {
+                padding: 28px 0 50px;
+            }
+
+            h1 {
+                font-size: 29px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+            }
+
+            .card {
+                padding: 21px;
+
+                border-radius: 17px;
+            }
+
+            .section-header {
+                margin-bottom: 18px;
+            }
+
+            .form-grid {
+                gap: 16px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .button-row a,
+            .button-row button {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="logo">
+        Smart<span>Attendance</span>
+    </div>
+
+    <a
+        href="{{ url_for('dashboard') }}"
+        class="back-btn"
+    >
+        ← Dashboard
+    </a>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+    <!-- ================= HEADING ================= -->
+
+    <div class="page-heading">
+
+        <div class="eyebrow">
+
+            <span class="eyebrow-dot"></span>
+
+            Student Management
+
+        </div>
+
+        <h1>
+            Create Student Account
+        </h1>
+
+        <p class="subtitle">
+            Add a new student and create their SmartAttendance login credentials.
+        </p>
+
+    </div>
+
+
+    <!-- ================= CARD ================= -->
+
+    <div class="card">
+
+
+        {% if error %}
+
+        <div class="error">
+
+            <span class="error-icon">
+                ⚠
+            </span>
+
+            <span>
+                {{ error }}
+            </span>
+
+        </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+
+            <!-- ================= PERSONAL INFORMATION ================= -->
+
+            <div class="form-section">
+
+
+                <div class="section-header">
+
+                    <div class="section-icon">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Personal Information
+                        </h2>
+
+                        <p>
+                            Enter the student's basic details.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- STUDENT NAME -->
+
+                    <div class="field">
+
+                        <label>
+                            Student Name
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <span class="input-icon">
+                                👤
+                            </span>
+
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Enter student name"
+                                value="{{ request.form.get('name', '') }}"
+                                autocomplete="name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FATHER NAME -->
+
+                    <div class="field">
+
+                        <label>
+                            Father's Name
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <span class="input-icon">
+                                👨
+                            </span>
+
+                            <input
+                                type="text"
+                                name="father_name"
+                                placeholder="Enter father's name"
+                                value="{{ request.form.get('father_name', '') }}"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CLASS -->
+
+                    <div class="field">
+
+                        <label>
+                            Class
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <span class="input-icon">
+                                🎓
+                            </span>
+
+                            <input
+                                type="text"
+                                name="class_name"
+                                placeholder="e.g. BCA 1st Year"
+                                value="{{ request.form.get('class_name', '') }}"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ROLL NUMBER -->
+
+                    <div class="field">
+
+                        <label>
+                            Roll Number
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <span class="input-icon">
+                                #
+                            </span>
+
+                            <input
+                                type="text"
+                                name="roll_number"
+                                placeholder="Enter roll number"
+                                value="{{ request.form.get('roll_number', '') }}"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= CONTACT INFORMATION ================= -->
+
+            <div class="form-section">
+
+
+                <div class="section-header">
+
+                    <div class="section-icon">
+                        📱
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Contact Information
+                        </h2>
+
+                        <p>
+                            Add the student's contact and login email.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- EMAIL -->
+
+                    <div class="field">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <span class="input-icon">
+                                ✉
+                            </span>
+
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="student@example.com"
+                                value="{{ request.form.get('email', '') }}"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CONTACT -->
+
+                    <div class="field">
+
+                        <label>
+                            Contact Number
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <span class="input-icon">
+                                ☎
+                            </span>
+
+                            <input
+                                type="tel"
+                                name="contact"
+                                placeholder="Enter contact number"
+                                value="{{ request.form.get('contact', '') }}"
+                                autocomplete="tel"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= ACCOUNT SECURITY ================= -->
+
+            <div class="form-section">
+
+
+                <div class="section-header">
+
+                    <div class="section-icon">
+                        🔐
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Account Security
+                        </h2>
+
+                        <p>
+                            Create the password the student will use to log in.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <div class="field full">
+
+                        <label>
+                            Student Password
+                        </label>
+
+
+                        <div class="password-wrap">
+
+                            <div class="input-wrap">
+
+                                <span class="input-icon">
+                                    🔑
+                                </span>
+
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="Create a password"
+                                    autocomplete="new-password"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                id="passwordToggle"
+                                onclick="togglePassword()"
+                                aria-label="Show password"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+
+                        <div class="password-hint">
+                            The student will use this password with their email to log in.
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= FOOTER ================= -->
+
+            <div class="form-footer">
+
+
+                <div class="footer-note">
+
+                    All required information must be entered
+                    before creating the account.
+
+                </div>
+
+
+                <div class="button-row">
+
+
+                    <a
+                        href="{{ url_for('dashboard') }}"
+                        class="cancel"
+                    >
+                        Cancel
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="submit"
+                    >
+                        Create Student Account
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("password");
+
+    const button =
+        document.getElementById("passwordToggle");
+
+
+    if (!password || !button) {
+        return;
+    }
+
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+        button.textContent = "🙈";
+
+        button.setAttribute(
+            "aria-label",
+            "Hide password"
+        );
+
+    } else {
+
+        password.type = "password";
+
+        button.textContent = "👁";
+
+        button.setAttribute(
+            "aria-label",
+            "Show password"
+        );
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
