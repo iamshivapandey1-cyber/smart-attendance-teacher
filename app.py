@@ -35,10 +35,10 @@ supabase = create_client(
 
 # ================= TEACHER CREDENTIALS =================
 
-TEACHER_EMAIL = "shivapandey1418@gmail.com"
+TEACHER_EMAIL = "ronakthakur9813@gmail.com"
 
 
-TEACHER_PASSWORD = "shiva@121929"
+TEACHER_PASSWORD = "Ronaksingh9813"
 
 
 # ================= TEACHER LOGIN =================
