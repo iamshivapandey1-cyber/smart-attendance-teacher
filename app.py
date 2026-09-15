@@ -1402,13 +1402,14 @@ def edit_student(student_id):
         print("EDIT STUDENT ERROR:", repr(error))
         return "Unable to update student information."
 
-
 @app.route("/student/<int:student_id>/delete", methods=["POST"])
 def delete_student(student_id):
+
     if not session.get("teacher_logged_in"):
         return redirect(url_for("login"))
 
     try:
+
         supabase.table("students").delete().eq(
             "id", student_id
         ).execute()
@@ -1416,7 +1417,9 @@ def delete_student(student_id):
         return redirect(url_for("students"))
 
     except Exception as error:
+
         print("DELETE STUDENT ERROR:", repr(error))
+
         return "Unable to delete student."
 
 
