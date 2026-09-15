@@ -19,7 +19,11 @@
 
         body {
             background:
-                radial-gradient(circle at top left, rgba(255, 59, 48, 0.08), transparent 30%),
+                radial-gradient(
+                    circle at top left,
+                    rgba(255, 59, 48, 0.08),
+                    transparent 30%
+                ),
                 #09090d;
 
             color: white;
@@ -159,17 +163,16 @@
         .student-card {
             position: relative;
 
-            display: block;
-
-            min-height: 250px;
+            min-height: 290px;
 
             padding: 27px;
 
-            text-decoration: none;
-            color: white;
-
             background:
-                linear-gradient(145deg, #181820, #111117);
+                linear-gradient(
+                    145deg,
+                    #181820,
+                    #111117
+                );
 
             border: 1px solid #2c2c37;
 
@@ -199,10 +202,12 @@
             background: rgba(255, 59, 48, 0.08);
 
             filter: blur(3px);
+
+            pointer-events: none;
         }
 
         .student-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-5px);
 
             border-color: #ff3b30;
 
@@ -271,16 +276,66 @@
             color: #d7d7de;
         }
 
-        .view-profile {
+        /* ================= ACTIONS ================= */
+
+        .actions {
             position: absolute;
 
-            right: 25px;
-            bottom: 23px;
+            right: 24px;
+            bottom: 20px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            z-index: 5;
+        }
+
+        .view-profile {
+            text-decoration: none;
 
             color: #ff5b53;
 
             font-size: 13px;
             font-weight: bold;
+
+            padding: 9px 12px;
+
+            border-radius: 8px;
+
+            transition: 0.2s;
+        }
+
+        .view-profile:hover {
+            background: rgba(255, 59, 48, 0.08);
+        }
+
+        .delete-btn {
+            border: 1px solid rgba(255, 70, 60, 0.35);
+
+            background: rgba(255, 59, 48, 0.08);
+
+            color: #ff6b63;
+
+            padding: 9px 12px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: #ff3b30;
+
+            color: white;
+
+            border-color: #ff3b30;
         }
 
         .empty {
@@ -293,10 +348,13 @@
             background: #121218;
 
             border: 1px solid #292934;
+
             border-radius: 20px;
 
             color: #777783;
         }
+
+        /* ================= MOBILE ================= */
 
         @media (max-width: 800px) {
 
@@ -312,6 +370,10 @@
                 padding: 0 15px;
             }
 
+            .logo {
+                font-size: 19px;
+            }
+
             main {
                 padding: 30px 15px 60px;
             }
@@ -325,13 +387,36 @@
                 font-size: 29px;
             }
 
+            .student-card {
+                padding: 22px;
+
+                min-height: 315px;
+            }
+
+            .actions {
+                left: 22px;
+                right: 22px;
+                bottom: 18px;
+
+                justify-content: space-between;
+            }
+
+            .view-profile,
+            .delete-btn {
+                flex: 1;
+
+                text-align: center;
+            }
+
         }
 
     </style>
 
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -348,6 +433,7 @@
 
 <main>
 
+
     <div class="heading">
 
         <div>
@@ -359,6 +445,7 @@
             </p>
 
         </div>
+
 
         <div class="count">
 
@@ -384,13 +471,15 @@
 
     <div class="student-grid">
 
+
         {% for student in students %}
 
-        <a
-            href="/student/{{ student.id }}"
+
+        <div
             class="student-card"
             data-search="{{ student.name }} {{ student.roll_number }} {{ student.class_name }} {{ student.email }}"
         >
+
 
             <div class="student-top">
 
@@ -435,26 +524,60 @@
             </div>
 
 
-            <div class="view-profile">
-                View Profile →
+            <!-- ACTION BUTTONS -->
+
+            <div class="actions">
+
+                <a
+                    href="/student/{{ student.id }}"
+                    class="view-profile"
+                >
+                    View Profile →
+                </a>
+
+
+                <form
+                    method="POST"
+                    action="/student/{{ student.id }}/delete"
+                    onsubmit="return confirmDelete('{{ student.name|e }}');"
+                >
+
+                    <button
+                        type="submit"
+                        class="delete-btn"
+                    >
+                        Delete
+                    </button>
+
+                </form>
+
             </div>
 
-        </a>
+
+        </div>
+
 
         {% else %}
 
+
         <div class="empty">
+
             No students registered yet.
+
         </div>
+
 
         {% endfor %}
 
+
     </div>
+
 
 </main>
 
 
 <script>
+
 
 function searchStudents() {
 
@@ -462,10 +585,13 @@ function searchStudents() {
         document
         .getElementById("searchInput")
         .value
-        .toLowerCase();
+        .toLowerCase()
+        .trim();
+
 
     const cards =
         document.querySelectorAll(".student-card");
+
 
     cards.forEach(function(card) {
 
@@ -473,6 +599,7 @@ function searchStudents() {
             card
             .getAttribute("data-search")
             .toLowerCase();
+
 
         if (data.includes(searchText)) {
 
@@ -488,7 +615,20 @@ function searchStudents() {
 
 }
 
+
+function confirmDelete(studentName) {
+
+    return confirm(
+        "Are you sure you want to delete " +
+        studentName +
+        "?\n\nThis will permanently remove the student's account and related attendance records."
+    );
+
+}
+
+
 </script>
+
 
 </body>
 
